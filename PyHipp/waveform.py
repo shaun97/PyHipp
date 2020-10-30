@@ -41,14 +41,26 @@ class Waveform(DPT.DPObject):
             DPT.DPObject.create(self, *args, **kwargs)
         else:
             # create empty object if data is empty
-            DPT.DPObject.create(self, dirs=[], *args, **kwargs)            
+            DPT.DPObject.create(self, dirs=[], *args, **kwargs)
         
+        aname = DPT.levels.normpath(os.path.dirname(pwd))
+        self.array_dict = dict()
+        self.array_dict[aname] = 0
+        
+        self.numSets = 1
+        self.current_plot_type = None
+
+
     def append(self, wf):
         # this function will be called by processDirs to append the values of certain fields
         # from an extra object (wf) to this object
         # It is useful to store the information of the objects for panning through in the future
         DPT.DPObject.append(self, wf)  # append self.setidx and self.dirs
         self.data = self.data + wf.data
+        
+        for ar in wf.array_dict:
+            self.array_dict[ar] = self.numSets
+        self.numSets += 1
 
         
     def plot(self, i = None, ax = None, getNumEvents = False, getLevels = False,\
