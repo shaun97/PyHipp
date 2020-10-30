@@ -14,8 +14,9 @@ for i in "${temp1[@]}"; do
 done
 
 cmd1=${cmd1::-1}
-cmd1="/data/src/PyHipp/fsall-slurm.sh"
+cmd1="${cmd1} /data/src/PyHipp/fsall-slurm.sh"
 
+cd ~
 
 echo $cmd1
 eval $cmd1
